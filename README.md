@@ -1,2 +1,2 @@
 # IdentidadesNotables
-###### Para compilar usar g++
+#### Para compilar usar g++
