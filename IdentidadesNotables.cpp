@@ -16,6 +16,7 @@ void id2();
 void id3();
 int ficheroRespuestas();
 int detectarFichero();
+int ficheroVariables();
 
 int Coeficientes[2];
 int Exponentes[2];
@@ -31,6 +32,7 @@ int op1;
 int main()
 {
   int resultDetectar;
+  int resultVariables;
   if(detectarFichero()==1)
   {
     cout <<" No se ha encontrado un fichero de variables" <<endl;
@@ -46,6 +48,7 @@ int main()
   cout <<" 1. Suma al cuadrado" <<endl;
   cout <<" 2. Diferencia al cuadrado" <<endl;
   cout <<" 3. Suma por diferencia" <<endl;
+  cout <<" 4. Crear fichero. Solo si no existe dichos ficheros" <<endl;
   cout <<" ===> ";
   cin >> op1;
   //Siguiente paso
@@ -68,6 +71,12 @@ int main()
         id3();
       }
       break;
+      case 4:{
+        cout <<" No se puede hacer lo que ha seleccionado" <<endl;
+        system("PAUSE");
+        exit(1);
+      }
+      break;
       default: cout <<" Opcion incorrecta" <<endl;
     }
   }
@@ -83,7 +92,7 @@ int main()
     cout <<" ===> ";
     cin >> Coeficientes[1];
     cout <<" Ponga el exponente de la segunda parte literal" <<endl;
-    cout <<" ====> ";
+    cout <<" ===> ";
     cin >> Exponentes[1];
 
 
@@ -109,9 +118,28 @@ int main()
         id3();
       }
       break;
+      case 4:{
+        cout <<" Usted ha seleccionado 'crear ficheros de variables'" <<endl;
+        if(ficheroVariables()==1){
+          resultVariables = 1;
+          cout <<" No se ha podido completar la operacion" <<endl;
+          system("PAUSE");
+          exit(1);
+        }
+        else{
+          resultVariables = 0;
+          cout <<" Se ha completado la operacion" <<endl;
+          system("PAUSE");
+        }
+      }
+      break;
       default: cout <<" Opcion incorrecta " <<endl; exit(1);
     }
    }
+  if(resultVariables == 0)
+  {
+    return 0;
+  }
   string op2;
   cout <<" Quiere guardar el resultado en un fichero?(s/n)" <<endl;
   cout <<" ===> ";
@@ -264,5 +292,32 @@ int detectarFichero()
   variables3.close();
   variables4.close();
   //Proceso completado
+  return 0;
+}
+
+int ficheroVariables()
+{
+  system("MKDIR variables");
+  ofstream crearVariables;
+  crearVariables.open("./variables/1.txt", ios::out);
+  ofstream crearVariables2;
+  crearVariables2.open("./variables/2.txt", ios::out);
+  ofstream crearVariables3;
+  crearVariables3.open("./variables/3.txt", ios::out);
+  ofstream crearVariables4;
+  crearVariables4.open("./variables/4.txt", ios::out);
+  crearVariables <<Coeficientes[0];
+  crearVariables2 <<Exponentes[0];
+  crearVariables3 <<Coeficientes[1];
+  crearVariables4 <<Exponentes[1];
+  if(crearVariables.fail()||crearVariables2.fail()||crearVariables3.fail()||crearVariables4.fail())
+  {
+    return 1;
+  }
+  crearVariables.close();
+  crearVariables2.close();
+  crearVariables3.close();
+  crearVariables4.close();
+  //Se ha creado el fichero en ./variables/x.txt
   return 0;
 }
