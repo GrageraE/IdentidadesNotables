@@ -15,6 +15,7 @@ void id1();
 void id2();
 void id3();
 int ficheroRespuestas();
+int detectarFichero();
 
 int Coeficientes[2];
 int Exponentes[2];
@@ -29,6 +30,17 @@ int op1;
 
 int main()
 {
+  int resultDetectar;
+  if(detectarFichero()==1)
+  {
+    cout <<" No se ha encontrado un fichero de variables" <<endl;
+    resultDetectar = 1;
+  }
+  else{
+    cout <<" Se ha completado la importacion del fichero" <<endl;
+    resultDetectar = 0;
+  }
+
   //int op1;
   cout <<" Que identidad desea usar?" <<endl;
   cout <<" 1. Suma al cuadrado" <<endl;
@@ -37,42 +49,69 @@ int main()
   cout <<" ===> ";
   cin >> op1;
   //Siguiente paso
-  cout <<" Ponga el coeficiente del primer monomio" <<endl;
-  cout <<" ===> ";
-  cin >> Coeficientes[0];
-  cout <<" Ponga el exponente de la parte literal" <<endl;
-  cout <<" ===> ";
-  cin >> Exponentes[0];
-  cout <<" Ponga el coeficiente del segundo monomio " <<endl;
-  cout <<" ===> ";
-  cin >> Coeficientes[1];
-  cout <<" Ponga el exponente de la segunda parte literal" <<endl;
-  cout <<" ====> ";
-  cin >> Exponentes[1];
-  //Tercer paso: reconocer la formula que hay que usar:
-  /*
-  Formula 1: a^2 + b^2 + 2ab
-  Formula 2: a^2 + b^2 - 2ab
-  Formula 3: a^2 - b^2
-  */
-  switch (op1) {
-    case 1:{
-      cout <<" Usted ha seleccionado 'Suma al cuadrado'... " <<endl;
-      id1();
+  if(resultDetectar == 0)
+  {
+    switch(op1)
+    {
+      case 1:{
+        cout <<" Usted ha seleccionado suma al cuadrado" <<endl;
+        id1();
+      }
+      break;
+      case 2:{
+        cout <<" Usted ha seleccionado diferencia al cuadrado" <<endl;
+        id2();
+      }
+      break;
+      case 3:{
+        cout <<" Usted ha seleccionado suma por diferencia " <<endl;
+        id3();
+      }
+      break;
+      default: cout <<" Opcion incorrecta" <<endl;
     }
-    break;
-    case 2:{
-      cout <<" Usted ha seleccionado 'Diferencia al cuadrado'... " <<endl;
-      id2();
-    }
-    break;
-    case 3:{
-      cout <<" Usted ha seleccionado 'Suma por diferencia'... " <<endl;
-      id3();
-    }
-    break;
-    default: cout <<" Opcion incorrecta " <<endl; exit(1);
   }
+  else
+  {
+    cout <<" Ponga el coeficiente del primer monomio" <<endl;
+    cout <<" ===> ";
+    cin >> Coeficientes[0];
+    cout <<" Ponga el exponente de la parte literal" <<endl;
+    cout <<" ===> ";
+    cin >> Exponentes[0];
+    cout <<" Ponga el coeficiente del segundo monomio " <<endl;
+    cout <<" ===> ";
+    cin >> Coeficientes[1];
+    cout <<" Ponga el exponente de la segunda parte literal" <<endl;
+    cout <<" ====> ";
+    cin >> Exponentes[1];
+
+
+    //Tercer paso: reconocer la formula que hay que usar:
+    /*
+    Formula 1: a^2 + b^2 + 2ab
+    Formula 2: a^2 + b^2 - 2ab
+    Formula 3: a^2 - b^2
+    */
+    switch (op1) {
+      case 1:{
+        cout <<" Usted ha seleccionado 'Suma al cuadrado'... " <<endl;
+        id1();
+      }
+      break;
+      case 2:{
+        cout <<" Usted ha seleccionado 'Diferencia al cuadrado'... " <<endl;
+        id2();
+      }
+      break;
+      case 3:{
+        cout <<" Usted ha seleccionado 'Suma por diferencia'... " <<endl;
+        id3();
+      }
+      break;
+      default: cout <<" Opcion incorrecta " <<endl; exit(1);
+    }
+   }
   string op2;
   cout <<" Quiere guardar el resultado en un fichero?(s/n)" <<endl;
   cout <<" ===> ";
@@ -180,4 +219,50 @@ int ficheroRespuestas()
     Respuestas.close();
     return 0;
   }
+}
+
+int detectarFichero()
+{
+  ifstream variables;
+  variables.open("./variables/1.txt", ios::in);
+  ifstream variables2;
+  variables2.open("./variables/2.txt", ios::in);
+  ifstream variables3;
+  variables3.open("./variables/3.txt", ios::in);
+  ifstream variables4;
+  variables4.open("./variables/4.txt", ios::in);
+  if(variables.fail()||variables2.fail()||variables3.fail()||variables4.fail())
+  {
+    return 1;
+  }
+  while(!variables.eof())
+  {
+    string coeficiente1;
+    getline(variables, coeficiente1);
+    Coeficientes[0] = atoi(coeficiente1.c_str());
+  }
+  while(!variables2.eof())
+  {
+    string exponente1;
+    getline(variables2, exponente1);
+    Exponentes[0]=atoi(exponente1.c_str());
+  }
+  while(!variables3.eof())
+  {
+    string coeficiente2;
+    getline(variables3, coeficiente2);
+    Coeficientes[1]=atoi(coeficiente2.c_str());
+  }
+  while(!variables4.eof())
+  {
+    string exponente2;
+    getline(variables4, exponente2);
+    Exponentes[1]=atoi(exponente2.c_str());
+  }
+  variables.close();
+  variables2.close();
+  variables3.close();
+  variables4.close();
+  //Proceso completado
+  return 0;
 }
